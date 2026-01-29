@@ -1,32 +1,28 @@
 const express = require("express");
 const {validateProduct, validateId} = require("../middleware/validateProduct");
-
+const productRepository = require("..\repositories\productRepository");
+const { findAll } = require("../repositories/productRepository");
 
 const router = express.Router();
 
 
-let produtos = [
-    {id: 1, nome: "Camisa", preco: 50, estoque: 10 },
-    { id: 2, nome: "Calça", preco: 100, estoque: 1 }
-];
-
-
-router.get("/products", (req, res) => {
+router.get("/products", findAll,(req, res) => {
     
     const { available } = req.query;
 
-    let resultado = produtos;
-    
     if(available === "true"){
-        resultado = produtos
-        .filter(p => p.estoque > 0)
-        .map(p => ({
-                    id: p.id,
-                    nome: p.nome,
-                    preco: p.preco,
-                    estoque: p.estoque
-        }));
+        findAll()
     }
+    // if(available === "true"){
+    //     resultado = produtos
+    //     .filter(p => p.estoque > 0)
+    //     .map(p => ({
+    //                 id: p.id,
+    //                 nome: p.nome,
+    //                 preco: p.preco,
+    //                 estoque: p.estoque
+    //     }));
+    // }
     
     res.status(200).json(resultado);
 });
@@ -34,7 +30,7 @@ router.get("/products", (req, res) => {
 router.get("/products/:id",validateId, (req, res) => {
     const id = req.productId;
 
-    const produto = produtos.find(p => p.id === id);
+    // const produto = produtos.find(p => p.id === id);
 
     if(!produto){
         return res.status(404).json({error: "produto não encontrado"});
@@ -55,15 +51,7 @@ router.get("/products/:id",validateId, (req, res) => {
 router.post("/products", validateProduct, (req, res) => {
     const { nome, preco, estoque } = req.body;
 
-    const novoProduto = {
-        id: produtos.length + 1,
-        nome,
-        preco,
-        estoque
-    };
-
-    produtos.push(novoProduto);
-
+    
     // res.status(201).json(novoProduto);
     res.status(201).json({
         mensagem: "produto Criado", 
