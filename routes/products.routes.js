@@ -1,62 +1,41 @@
 const express = require("express");
 const {validateProduct, validateId} = require("../middleware/validateProduct");
-const productRepository = require("..\repositories\productRepository");
-const { findAll } = require("../repositories/productRepository");
+const productService = require ("../services/productSevice.js")
+
 
 const router = express.Router();
 
-
-router.get("/products", findAll,(req, res) => {
+router.post("/products", validateProduct, (req, res) => {
+    const novoProduto = productService.createProduct(req.body);
     
-    const { available } = req.query;
-
-    if(available === "true"){
-        findAll()
-    }
-    // if(available === "true"){
-    //     resultado = produtos
-    //     .filter(p => p.estoque > 0)
-    //     .map(p => ({
-    //                 id: p.id,
-    //                 nome: p.nome,
-    //                 preco: p.preco,
-    //                 estoque: p.estoque
-    //     }));
-    // }
-    
-    res.status(200).json(resultado);
+        res.status(201).json({
+            mensagem: "produto Criado com sucesso!", 
+            produto: novoProduto
+        });
 });
 
-router.get("/products/:id",validateId, (req, res) => {
+router.get("/products", (req, res) => {
+    console.log("Query params recebidos:", req.query);
+    
+    const produtos = productService.getProducts(req.query);
+
+    res.status(200).json(produtos);
+});
+
+router.get("/products/:id", validateId, (req, res) => {
     const id = req.productId;
+    console.log('1. ID na rota:', id, 'tipo:', typeof id);
 
-    // const produto = produtos.find(p => p.id === id);
+    const produto = productService.getByid(id);
+    console.log('4. Produto retornado:', produto);
 
-    if(!produto){
-        return res.status(404).json({error: "produto não encontrado"});
+    if(!produto) {
+        return res.status(404).json({
+            error:`produto de id: ${id} não encontrado`});
     };
 
     res.status(200).json(produto);
 }); 
 
-// router.get("/products/testtwo/:id", validateId, (req, res) => {
-//     const id_recebido = req.productId;
-//     const produto = produtos.filter(p => p.id === id_recebido);
-//     if(!produto){
-//         return res.status(404).json({error:`produto de id: ${id_recebido} não encontrado`});
-//     };
-//     res.status(200).json(produto);
-// });
-
-router.post("/products", validateProduct, (req, res) => {
-    const { nome, preco, estoque } = req.body;
-
-    
-    // res.status(201).json(novoProduto);
-    res.status(201).json({
-        mensagem: "produto Criado", 
-        novoProduto
-    });
-});
 
 module.exports = router;
