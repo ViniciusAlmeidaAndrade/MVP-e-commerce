@@ -9,7 +9,7 @@ function validateProduct(req, res, next){
         return res.status(400).json({error: "preco inválido"});
     };
 
-    if(estoque == null || typeof estoque !== "number" || estoque < 0){
+    if(estoque == null || typeof estoque !== "number"){
         return res.status(400).json({error: "estoque inválido"});
     };
     next();
