@@ -1,10 +1,11 @@
+const express = require("express");
+const routes = require("./routes");
+
 const app = express();
 
-const errorHandler = require("./middleware/errorHandler.js");
+app.use(express.json());
 
-app.use(errorHandler);
+app.use(routes);
 
-app.listen(8000, function(){
-    console.log("Example app listening on port 8000!")
-});
+module.exports = app;
 
