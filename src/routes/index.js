@@ -1,9 +1,14 @@
 const express = require("express");
-const productsRoutes = require("./routes/products.routes");
+
+const authRoutes = require("../modules/auth/auth.routes");
+const productRoutes = require("../modules/products/product.routes");
+const userRoutes = require("../modules/users/user.routes");
 
 const router = express.Router();
 
-app.use(express.json());
-app.use("/products", productsRoutes);
 
-module.exports = router
+// router.use("/auth", authRoutes);
+router.use("/products", productRoutes);
+// router.use("/users", userRoutes);
+
+module.exports = router;
