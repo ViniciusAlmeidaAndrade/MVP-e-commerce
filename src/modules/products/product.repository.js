@@ -19,7 +19,7 @@ async function create(data){
 };
 
 async function findByName(nome){
-    return produtos.find(
+    return products.find(
         p => p.nome.toLowerCase() === nome.toLowerCase()
     );
 }
@@ -46,15 +46,15 @@ async function applyFilter(resultado, filters){
         );
     };
 
-    if (filters.sort === "preco") {
-        if (filters.order === "asc" || filters.order != "asc" || filters.order != "desc") {
-            resultado.sort((a, b) => a.preco - b.preco);
-        };
+    // if (filters.sort === "preco") {
+    //     if (filters.order === "asc" || filters.order != "asc" || filters.order != "desc") {
+    //         resultado.sort((a, b) => a.preco - b.preco);
+    //     };
     
-        if (filters.order === "desc") {
-            resultado.sort((a, b) => b.preco - a.preco);
-        };
-    };
+    //     if (filters.order === "desc") {
+    //         resultado.sort((a, b) => b.preco - a.preco);
+    //     };
+    // };
 
     return resultado
 };
@@ -95,7 +95,7 @@ async function findAll (filters ={}){
     const page = Number(filters.page) || 1;
     const limit = Number(filters.limit) || 10;
     
-    resultado = applyPagination(resultado, page, limit);
+    resultado = await applyPagination(resultado, page, limit);
 
     const totalPages = Math.ceil(total / limit);
     
@@ -109,7 +109,8 @@ async function findAll (filters ={}){
 };
 
 async function findById(id){
-    return products.find(p => p.id === id);
+    console.log("🔍 3. ID chegando no Repository:", id);
+    return products.find(p => p.id === Number(id));
 };
 
 

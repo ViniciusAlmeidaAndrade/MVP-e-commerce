@@ -1,4 +1,4 @@
-const productRepository = require ("./productRepository.js");
+const productRepository = require ("./product.Repository.js");
 const {ValidationError, NotFoundError} = require("../../utils/errors.js")
 
 console.log('ValidationError importado:', ValidationError);
@@ -7,7 +7,7 @@ console.log('Tipo:', typeof ValidationError);
 async function createProducts(data){
     const { nome, preco, estoque } = data;
 
-    const produtoExistente = await productRepository.findByName(nome)
+    const produtoExistente = await productRepository.findByName(nome);
 
     if(produtoExistente) throw new Error ("Já existe um produto com este nome");
 
@@ -71,7 +71,12 @@ async function getAllProducts(filters){
 }
 
 async function getProductsId(id){
-    return productRepository.findById(id);
+    console.log("🔍 2. ID chegando no Service:", id);
+    const produto = await productRepository.findById(id);
+
+    if(!produto) throw new Error("Produto não encontrado");
+
+    return produto;
 }
 
 module.exports = {

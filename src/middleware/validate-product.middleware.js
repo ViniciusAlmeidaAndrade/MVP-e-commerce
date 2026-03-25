@@ -1,5 +1,5 @@
 function validateProduct(req, res, next){
-    const {nome, preco, estoque, id, produtos} = req.body;
+    const {nome, preco, estoque} = req.body;
     
     if(!nome || typeof nome !== "string"){
         return res.status(400).json({error: "Nome inválido"});

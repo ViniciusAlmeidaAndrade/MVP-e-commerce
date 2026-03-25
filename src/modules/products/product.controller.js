@@ -4,19 +4,19 @@ async function createProducts(req, res, next){
     try {
         const newProduct = await productService.createProducts(req.body);
 
-        res.json({
+        res.status(201).json({
             mensagem: "produto Criado com sucesso!", 
             produto: newProduct
         });
     } catch (error) {
-        res.status(400).json({error: "Erro ao criar o produto"});
+        next(error);;
     }
 }
 
 async function getProducts(req, res, next){
     try {        
-        const product = await productService.getProductsAll(req.query);
-        res.json(product);
+        const product = await productService.getAllProducts(req.query);
+        res.status(200).json(product);
     } catch (error) { 
         next(error);
     }
@@ -24,10 +24,16 @@ async function getProducts(req, res, next){
 
 async function getProductsId(req, res, next){
     try{
-        const productId = await productService.getProductsId(req.query);
-        res.json(productId);
+        // const productId = await productService.getProductsId(req.product);
+        // res.status(200).json(productId);
+        const idParaBuscar = req.productId || req.params.id; 
+        
+        console.log("🔍 1. ID saindo do Controller:", idParaBuscar);
+
+        const produto = await productService.getProductsId(idParaBuscar);
+        res.status(200).json(produto);
     } catch (error) {
-        res.json({error: "Erro ao encontrar o produto"});
+        next(error);
     }
 }
 
