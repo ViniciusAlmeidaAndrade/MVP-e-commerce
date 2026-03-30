@@ -1,0 +1,35 @@
+name: Node.js CI
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                # Usar aspas nas versões evita que o YAML as confunda com números decimais
+                node-version: ["18.x", "20.x"]
+
+        steps:
+            - name: "📥 Checkout do código"
+              uses: actions/checkout@v4
+
+            - name: "🟢 Configurar Node.js ${{ matrix.node-version }}"
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm"
+
+            - name: "📦 Instalar dependências"
+              run: npm install
+
+            - name: "🏗️ Rodar Build"
+              run: npm run build --if-present
+
+            - name: "🔍 Rodar Testes"
+              run: npm test --if-present
