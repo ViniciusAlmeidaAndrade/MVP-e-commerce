@@ -8,7 +8,7 @@ Projeto **MVP de E-commerce** desenvolvido como **projeto pessoal de estudo**, c
 
 Desenvolver um **MVP de e-commerce backend** bem estruturado, escalável e reutilizável, que sirva tanto como **projeto de estudo** quanto como **base técnica para um produto comercial**.
 
-O planejamento do projeto prevê, após a consolidação do MVP, a criação de um **fork privado**, onde o sistema será evoluído, refinado e adaptado para **uso no mercado**, com foco em qualidade de código, segurança, escalabilidade e manutenibilidade.
+Este projeto segue os princípios de clean code para facilitar a transição entre ambientes de prototipação e produção comercial,com foco em qualidade de código, segurança, escalabilidade e manutenibilidade.
 
 Este repositório público representa a **fase educacional e de prototipação** do projeto.
 
